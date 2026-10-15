@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: n8n-workflow-engine
+    env: docker
+    image:
+      url: docker.n8n.io/n8nio/n8n:latest
+    plan: starter
+    envVars:
+      - key: PORT
+        value: 5678
+      - key: N8N_PORT
+        value: 5678
+      # Reemplaza con la URL que te asignará Render para tu Web Service
+      - key: WEBHOOK_URL
+        value: https://n8n-workflow-engine.onrender.com/
+      
+      # Genera automáticamente una clave fuerte y segura para encriptar datos en n8n
+      - key: N8N_ENCRYPTION_KEY
+        generateValue: true
+
+      # --- CONFIGURACIÓN DE BASE DE DATOS AIVEN ---
+      - key: DB_TYPE
+        value: postgresdb
+      - key: DB_POSTGRESDB_HOST
+        value: pg-3042dfd3-studiovisual314-4dfc.f.aivencloud.com
+      - key: DB_POSTGRESDB_PORT
+        value: "25432"
+      - key: DB_POSTGRESDB_DATABASE
+        value: defaultdb
+      - key: DB_POSTGRESDB_USER
+        value: avnadmin
+      
+      # sync: false le indica a Render que te pida la contraseña en el panel (no la guarda en Git)
+      - key: DB_POSTGRESDB_PASSWORD
+        sync: false
+
+      # Habilita conexión SSL para Aiven
+      - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
+        value: "false"
